@@ -47,7 +47,7 @@ public class Anagrams
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static int findAnagrams(ArrayList<String> current, int m, ArrayList<ArrayList<String>> found)
+	public static int findAnagrams(ArrayList<String> current, int m, String dict)
 	{
 		//parameters: ArrayList that holds the current strings that work & an array list of array list to hold the ones we've already found
 		//loop find words that fit into toUse
