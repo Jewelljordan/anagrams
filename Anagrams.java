@@ -47,11 +47,12 @@ public class Anagrams
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static int findAnagrams(ArrayList<String> toUse, int m, String dict)
+	public static boolean isAnagram(ArrayList<String> toUse, int m, String dict)
 	{
 		//parameters: ArrayList of words toUse & a string of the dictionary word we're on
 		//loop find words that fit into toUse
 		//then recur to see all words that make the string
+		Collections.sort(dict);
 		
 		for(int x=0; x<dictionary.size(); x++)
 		{
@@ -62,7 +63,7 @@ public class Anagrams
 		 
 		
 		//return the count
-		return 0;
+		return false;
 	}
 	
 	
