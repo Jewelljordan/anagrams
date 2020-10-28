@@ -49,7 +49,7 @@ public class Anagrams
 	
 	public static int findAnagrams(ArrayList<String> toUse, int m, String dict)
 	{
-		//parameters: ArrayList that holds the current strings that work & an array list of array list to hold the ones we've already found
+		//parameters: ArrayList of words toUse & a string of the dictionary word we're on
 		//loop find words that fit into toUse
 		//then recur to see all words that make the string
 		
@@ -59,8 +59,7 @@ public class Anagrams
 			//if yes, recur to find the rest
 			//add to count if all the letters used equal toUse
 		}
-		
-		//snirjirwt 
+		 
 		
 		//return the count
 		return 0;
