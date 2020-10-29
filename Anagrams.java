@@ -9,11 +9,14 @@ import java.util.TreeSet;
 
 public class Anagrams 
 {
-	static String phrase="";
-	static Set<String> dictionary= new TreeSet<String>();
-	static int max=0;
-	static ArrayList<String> toUse= new ArrayList<String>();
-	
+	static String phrase=""; //input (ex:Barbara Bush)
+	static ArrayList<String> dictionary= new ArrayList<String>(); //the dictionary we pass in
+	static int max=0; //the max words we can use for anagram
+	static ArrayList<String> toUse= new ArrayList<String>(); //phrase, but in alpha order and in an array list
+	static ArrayList<String> copyToUse= new ArrayList<String>(); //a copy of toUse that's found in isAnagram
+	static ArrayList<ArrayList<String>> combos= new ArrayList<ArrayList<String>>(); //this holds all the array lists of possible anagrams split by their words
+	static ArrayList<String> ctoUse=new ArrayList<String>(); //make a copy of toUse for findAnagrams
+			
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public static void run()throws Exception
@@ -28,7 +31,7 @@ public class Anagrams
 	Scanner kb = new Scanner(System.in);
 	System.out.print("What word/phrase do you want to use? ");
 	phrase = kb.nextLine();
-	System.out.print("How many words do you want to lose?");
+	System.out.print("How many words do you want to use?");
 	max = kb.nextInt();
 	System.out.println("Searching for anagrams...");
 	//convert phrase into WordsToUse Tree Set
@@ -42,30 +45,67 @@ public class Anagrams
 				}
 			}
 			Collections.sort(toUse);
-	//System.out.println(findAnagrams(phrase,max,dictionary));
+			System.out.println(toUse);
+			ctoUse= toUse;
+			copyToUse=toUse;
+	System.out.println(isAnagram(toUse,"abashz"));
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public static boolean isAnagram(ArrayList<String> toUse, int m, String dict)
+	public static boolean isAnagram(ArrayList<String> tu, String d) 
 	{
-		//parameters: ArrayList of words toUse & a string of the dictionary word we're on
-		//loop find words that fit into toUse
-		//then recur to see all words that make the string
-		Collections.sort(dict);
-		
-		for(int x=0; x<dictionary.size(); x++)
+		//parameters: ArrayList of letters toUse (barbara bush in alpha order) & a string of the dictionary word we're on (String d)
+		toUse=tu;
+		//sort d (the string from dictionary) into alpha order
+		ArrayList<String> z= new ArrayList<String>();
+		for(int x=0; x<d.length(); x++)
 		{
-			//see if the letters of this word can be found in toUse (how the heck... bc rn I have toUse as an ArayList ummmm)
-			//if yes, recur to find the rest
-			//add to count if all the letters used equal toUse
+			z.add((d.substring(x,x+1)).toLowerCase());
+		}
+		Collections.sort(z);
+		//convert the alphabetized array list of d (string from dictionary) back to a string
+		StringBuffer sb = new StringBuffer();
+	      for (String s : z) {
+	         sb.append(s);
+	      }
+	      String dict = sb.toString();
+		
+		//loop through dict to see if it can be found in toUse
+	    for(int x=dict.length()-1; x>=0; x--)
+		{
+	    	if(!copyToUse.contains(dict.substring(x,x+1)))
+				return false;
+			if(copyToUse.contains(dict.substring(x,x+1)))
+			{
+				copyToUse.remove(dict.substring(x,x+1));
+				dict=dict.substring(0,x);
+			}
 		}
 		 
 		
-		//return the count
-		return false;
+		//return true or false
+		return true;
 	}
-	
+	public int findAnagrams(ArrayList<String> possible, int count)
+	{
+		for(int x=0; x<dictionary.size(); x++)
+		{
+			if(ctoUse.isEmpty()) //
+			{
+				combos.add(possible);
+				ctoUse=toUse;
+				x=0;
+			}
+			if(Anagrams.isAnagram(toUse, dictionary.get(x))) // and check if combos doesn't contain possible
+			{
+				possible.add(dictionary.get(x));
+				findAnagrams(possible,count);
+			}
+		}
+			
+		return 0;
+	}
 	
 	public static void main(String[] args) throws Exception
 	{
