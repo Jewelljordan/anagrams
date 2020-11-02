@@ -3,6 +3,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
@@ -14,7 +15,7 @@ public class anagrams2
 	static int max=0; //the max words we can use for anagram
 	static ArrayList<String> toUse= new ArrayList<String>(); //phrase, but in alpha order and in an array list
 	static ArrayList<String> copyToUse= new ArrayList<String>(); //a copy of toUse that's found in isAnagram
-	static ArrayList<ArrayList<String>> combos= new ArrayList<ArrayList<String>>(); //this holds all the array lists of possible anagrams split by their words
+	static Set<ArrayList<String>> combos= new TreeSet<ArrayList<String>>(); //this holds all the array lists of possible anagrams split by their words
 	static ArrayList<String> ctoUse=new ArrayList<String>(); //make a copy of toUse for findAnagrams
 			
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +54,13 @@ public class anagrams2
 	System.out.println(1);
 	anagrams2.findAnagrams(new ArrayList<String>(),max,toUse,0);
 	System.out.println(2);
+	/*
+	Iterator it = combos.iterator();
+	while(it.hasNext()) {
+		System.out.println(it.next());
+	}
+	*/
+	
 	
 	}
 	
@@ -100,12 +108,13 @@ public class anagrams2
 			letters2.add(x);
 		}
 		
-		for(int x=0; x<dictionary.size(); x++)
+		for(int x=forx; x<dictionary.size(); x++)
 		{
 			if(letters2.isEmpty()) //
 			{
 				System.out.println(3);
-				System.out.println(possible2); //is printing why too much, why ugh
+				System.out.println(possible2); //Y WONT IT PRINT ANYTHING
+				//combos.add(possible2);
 				return 0; //stop recursion
 			}
 			//System.out.println(letters);
@@ -142,3 +151,4 @@ public class anagrams2
 	}
 	
 }
+
