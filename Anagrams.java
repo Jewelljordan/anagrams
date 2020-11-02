@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Anagrams 
+public class anagrams2 
 {
 	static String phrase=""; //input (ex:Barbara Bush)
 	static ArrayList<String> dictionary= new ArrayList<String>(); //the dictionary we pass in
@@ -48,7 +48,12 @@ public class Anagrams
 			System.out.println(toUse);
 			ctoUse= toUse;
 			copyToUse=toUse;
-	System.out.println(isAnagram(toUse,"abashz"));
+	
+	//System.out.println(isAnagram(toUse,"abashz"));
+	System.out.println(1);
+	anagrams2.findAnagrams(new ArrayList<String>(),max,toUse,0);
+	System.out.println(2);
+	
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +61,7 @@ public class Anagrams
 	public static boolean isAnagram(ArrayList<String> tu, String d) 
 	{
 		//parameters: ArrayList of letters toUse (barbara bush in alpha order) & a string of the dictionary word we're on (String d)
-		toUse=tu;
+		copyToUse=tu; //changed to copy of to use
 		//sort d (the string from dictionary) into alpha order
 		ArrayList<String> z= new ArrayList<String>();
 		for(int x=0; x<d.length(); x++)
@@ -69,8 +74,8 @@ public class Anagrams
 	      for (String s : z) {
 	         sb.append(s);
 	      }
-	      String dict = sb.toString();
-		
+	    String dict = sb.toString();
+	      		
 		//loop through dict to see if it can be found in toUse
 	    for(int x=dict.length()-1; x>=0; x--)
 		{
@@ -82,34 +87,58 @@ public class Anagrams
 				dict=dict.substring(0,x);
 			}
 		}
-		 
-		
-		//return true or false
 		return true;
 	}
-	public int findAnagrams(ArrayList<String> possible, int count)
+	public static int findAnagrams(ArrayList<String> possible, int count, ArrayList<String> letters, int forx)
 	{
+		ArrayList<String> possible2 = new ArrayList<String>(); //gets new sets of data instead of the reference pasted into the method
+		for(String x:possible) {
+			possible2.add(x);
+		}
+		ArrayList<String> letters2 = new ArrayList<String>();
+		for(String x:letters) {
+			letters2.add(x);
+		}
+		
 		for(int x=0; x<dictionary.size(); x++)
 		{
-			if(ctoUse.isEmpty()) //
+			if(letters2.isEmpty()) //
 			{
-				combos.add(possible);
-				ctoUse=toUse;
-				x=0;
+				System.out.println(3);
+				System.out.println(possible2); //is printing why too much, why ugh
+				return 0; //stop recursion
 			}
-			if(Anagrams.isAnagram(toUse, dictionary.get(x))) // and check if combos doesn't contain possible
+			//System.out.println(letters);
+			//System.out.println(letters2);
+			//System.out.println(toUse);
+			if(anagrams2.isAnagram(letters2, dictionary.get(x))) // and check if combos doesn't contain possible
 			{
+				//System.out.println(letters);
+				//System.out.println(letters2);
+				//System.out.println(toUse);
+				//System.out.println(3);
+				//System.out.println(4);
+				anagrams2.findAnagrams(possible2,count,letters2,x+1);//branch one - doesn't add, (reason for forx) skips over to get different combo
 				possible.add(dictionary.get(x));
-				findAnagrams(possible,count);
+				//System.out.println(5);
+				anagrams2.findAnagrams(possible2,count,letters2,0); //branch two - adds it
+				//System.out.println(6);
 			}
-		}
+			else {
+				letters2 = new ArrayList<String>();
+				for(String y:letters) {
+					letters2.add(y);
+				}
+			}
 			
+		}
+		//branching point, one branch add item another branch dont
 		return 0;
 	}
 	
 	public static void main(String[] args) throws Exception
 	{
-		Anagrams.run();
+		anagrams2.run();
 	}
 	
 }
